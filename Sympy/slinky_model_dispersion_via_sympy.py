@@ -24,13 +24,24 @@ u_lm0_nm0,u_lm0_nm1,u_lm0_nm2,u_lm1_nm0,u_lm1_nm1,u_lm1_nm2,u_lm2_nm0,u_lm2_nm1,
 
 u_lm0_np0,u_lm0_np1,u_lm0_np2,u_lm1_np0,u_lm1_np1,u_lm1_np2,u_lm2_np0,u_lm2_np1,u_lm2_np2,u_lp0_nm0,u_lp0_nm1,u_lp0_nm2,u_lp1_nm0,u_lp1_nm1,u_lp1_nm2,u_lp2_nm0,u_lp2_nm1,u_lp2_nm2,zeta_lm0_np0,zeta_lm0_np1,zeta_lm0_np2,zeta_lm1_np0,zeta_lm1_np1,zeta_lm1_np2,zeta_lm2_np0,zeta_lm2_np1,zeta_lm2_np2,zeta_lp0_nm0,zeta_lp0_nm1,zeta_lp0_nm2,zeta_lp1_nm0,zeta_lp1_nm1,zeta_lp1_nm2,zeta_lp2_nm0,zeta_lp2_nm1,zeta_lp2_nm2 = symbols('u_lm0_np0,u_lm0_np1,u_lm0_np2,u_lm1_np0,u_lm1_np1,u_lm1_np2,u_lm2_np0,u_lm2_np1,u_lm2_np2,u_lp0_nm0,u_lp0_nm1,u_lp0_nm2,u_lp1_nm0,u_lp1_nm1,u_lp1_nm2,u_lp2_nm0,u_lp2_nm1,u_lp2_nm2,zeta_lm0_np0,zeta_lm0_np1,zeta_lm0_np2,zeta_lm1_np0,zeta_lm1_np1,zeta_lm1_np2,zeta_lm2_np0,zeta_lm2_np1,zeta_lm2_np2,zeta_lp0_nm0,zeta_lp0_nm1,zeta_lp0_nm2,zeta_lp1_nm0,zeta_lp1_nm1,zeta_lp1_nm2,zeta_lp2_nm0,zeta_lp2_nm1,zeta_lp2_nm2')
 
-## SLINKY MODEL
+## SLINKY MODEL (Same as ideal bar BUT with damping parameters !! K is usually chosen very small.)
 
 ## Model dispersion:
 
 sigma_0, sigma_1 = symbols('sigma_0,sigma_1')
 
 expr = diff(U*exp(I*(w*t+beta*x)),t,t) + K**2*( diff(U*exp(I*(w*t+beta*x)),x,x,x,x) ) + 2*sigma_0*diff(U*exp(I*(w*t+beta*x)),t) - 2*sigma_1*diff(U*exp(I*(w*t+beta*x)),t,x,x)
+
+expr = expr.subs(U,1)
+
+#expr_toSolve = expr.rewrite(sin)
+#expr.rewrite(sin)
+
+sols = solve(expr,w)
+
+# Lossless case (Ideal bar)
+
+expr = diff(U*exp(I*(w*t+beta*x)),t,t) + K**2*( diff(U*exp(I*(w*t+beta*x)),x,x,x,x) )
 
 expr = expr.subs(U,1)
 
